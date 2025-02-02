@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
-class EmpleadosViewModel() {
+class EmpleadosViewModel: ViewModel() {
 
         private val _nif = MutableLiveData<String>()
         val nif: LiveData<String> = _nif
@@ -41,10 +41,10 @@ class EmpleadosViewModel() {
             _apellidos.value = apellidos
             _telefono.value = telefono
             _departamento.value = departamento
-            _isButtonEnable.value = enableButton(nif, nombre)
+            _isButtonEnable.value = enableButton(nif, nombre, apellidos, telefono, departamento)
         }
 
-        fun enableButton(nif:String, nombre:String) =
-            nif.length >0 && nombre.length >0
+        fun enableButton(nif:String, nombre:String, apellidos:String, telefono:String, departamento:String) =
+            nif.length >0 && nombre.length >0 && apellidos.length>0 && telefono.length>0 && departamento.length>0
     }
 

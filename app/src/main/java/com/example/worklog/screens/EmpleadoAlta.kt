@@ -37,9 +37,9 @@ fun EmpleadoAlta(navController: NavHostController, auth: FirebaseAuth, ViewModel
 
     val nif:String by ViewModel.nif.observeAsState(initial = "")
     val nombre:String by ViewModel.nombre.observeAsState (initial = "")
-    val apellidos:String by ViewModel.nombre.observeAsState (initial = "")
-    val telefono:String by ViewModel.nombre.observeAsState (initial = "")
-    val departamento:String by ViewModel.nombre.observeAsState (initial = "")
+    val apellidos:String by ViewModel.apellidos.observeAsState (initial = "")
+    val telefono:String by ViewModel.telefono.observeAsState (initial = "")
+    val departamento:String by ViewModel.departamento.observeAsState (initial = "")
 
     val isButtonEnable:Boolean by ViewModel.isButtonEnable.observeAsState (initial = false)
 
@@ -100,7 +100,7 @@ fun EmpleadoAlta(navController: NavHostController, auth: FirebaseAuth, ViewModel
 
             OutlinedTextField(
                 value = telefono,
-                onValueChange = { ViewModel.onCompletedFields(nif = nif, nombre = nombre, apellidos = telefono, telefono = it, departamento = departamento)},
+                onValueChange = { ViewModel.onCompletedFields(nif = nif, nombre = nombre, apellidos = apellidos, telefono = it, departamento = departamento)},
                 label = { Text("Introduce el telefono") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
@@ -110,7 +110,7 @@ fun EmpleadoAlta(navController: NavHostController, auth: FirebaseAuth, ViewModel
 
             OutlinedTextField(
                 value = departamento,
-                onValueChange = { ViewModel.onCompletedFields(nif = nif, nombre = nombre, apellidos = telefono, telefono = telefono, departamento = it)},
+                onValueChange = { ViewModel.onCompletedFields(nif = nif, nombre = nombre, apellidos = apellidos, telefono = telefono, departamento = it)},
                 label = { Text("Introduce el departamento") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,

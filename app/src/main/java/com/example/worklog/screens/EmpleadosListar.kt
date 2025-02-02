@@ -13,6 +13,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -21,9 +22,11 @@ import androidx.navigation.NavHostController
 import com.example.worklog.models.Empleado
 import com.example.worklog.viewmodel.EmpleadosViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 @Composable
 fun EmpleadosListar(navController: NavHostController, auth: FirebaseAuth, ViewModel: EmpleadosViewModel) {
@@ -78,7 +81,7 @@ suspend fun getEmpleados(): List<Empleado> {
 
         val querySnapshot = db.collection(nombre_coleccion).get().await()
 
-        val empleados = mutableListOf<Empleados>()
+        val empleados = mutableListOf<Empleado>()
 
         for (document in querySnapshot.documents) {
             val empleado = document.toObject(Empleado::class.java)

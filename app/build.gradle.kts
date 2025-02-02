@@ -66,24 +66,25 @@ dependencies {
 
     //Firebase
     implementation(platform(libs.firebase.bom))
-    implementation(libs.firebase.firestore.ktx)
-    implementation(libs.firebase.auth.ktx)
+    // implementation(libs.firebase.firestore.ktx)
+    // implementation(libs.firebase.auth.ktx)
 
     //Firebase Auth
-    testImplementation(libs.junit)
+    implementation(libs.firebase.auth)
 
 
     // Firebase Firestore
     implementation(libs.firebase.firestore.ktx)
 
     // LiveData
-    implementation ("androidx.compose.runtime:runtime-livedata:1.3.2")
+    implementation("androidx.compose.runtime:runtime-livedata:1.3.2")
 
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
     implementation(libs.androidx.storage)
 
 
+    testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

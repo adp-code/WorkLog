@@ -5,12 +5,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -25,7 +28,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @Composable
-fun EmpleadosListar2(navController: NavHostController, auth: FirebaseAuth, ViewModel: EmpleadosViewModel) {
+fun EmpleadosListar2(navController: NavHostController, auth: FirebaseAuth, ViewModel: EmpleadosListarViewModel) {
 
     //obtener la lista de empleados de empleadossListarViewModel
 
@@ -59,7 +62,7 @@ fun EmpleadosListar2(navController: NavHostController, auth: FirebaseAuth, ViewM
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            items(listaempleados) { empleado ->
+            items(listaEmpleados) { empleado ->
                 EmpleadoItem2(empleado)
             }
         }
@@ -69,7 +72,7 @@ fun EmpleadosListar2(navController: NavHostController, auth: FirebaseAuth, ViewM
 
 //Funcion para mostrar un item de la lista de empleados
 @Composable
-fun ProveedorItem2(empleado: Empleado) {
+fun EmpleadoItem2(empleado: Empleado) {
 
     Card(
         modifier = Modifier
