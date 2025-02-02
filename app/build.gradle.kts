@@ -66,6 +66,7 @@ dependencies {
 
     //Firebase
     implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth.ktx)
 
     //Firebase Auth
     testImplementation(libs.junit)

@@ -10,9 +10,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun Home(navController: NavHostController) {
+fun Home(navController: NavHostController, auth: FirebaseAuth) {
     // Pantalla de Login
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.weight(1f))
