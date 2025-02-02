@@ -1,23 +1,31 @@
 [versions]
 agp = "8.8.0"
 kotlin = "1.9.0"
-coreKtx = "1.10.1"
+coreKtx = "1.15.0"
 junit = "4.13.2"
-junitVersion = "1.1.5"
-espressoCore = "3.5.1"
-lifecycleRuntimeKtx = "2.6.1"
-activityCompose = "1.8.0"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+lifecycleRuntimeKtx = "2.8.7"
+activityCompose = "1.9.3"
 composeBom = "2024.04.01"
 
-#Navigation
+# Navigation
 navigationCompose ="2.8.2"
 
-#firebase
+# Firebase
 firebaseBom = "33.1.1"
 
-#google service
+# Google Services
 services = "4.4.2"
+
+#fireStore
+firebaseFirestoreKtx = "25.1.1"
+
+#liveData
+liveData = "2.3.1"
+storage = "1.5.0"
 firebaseAuthKtx = "23.1.0"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -35,19 +43,29 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 
-#navigation
+# Navigation
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 
-#firebase
+# Firebase
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 
-#autentication
+# Autentication
 firebase-auth = { module = "com.google.firebase:firebase-auth-ktx" }
+
+# Firestore
+firebase-firestore-ktx = { group = "com.google.firebase", name = "firebase-firestore-ktx", version.ref = "firebaseFirestoreKtx" }
+
+# ViewModels
+androidx-viewmodel-compose = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }
+
+#liveData
+androidx-liveData = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "liveData" }
+androidx-storage = { group = "androidx.test.services", name = "storage", version.ref = "storage" }
 firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 
-#google service
+# Google Services
 googleServices = { id = "com.google.gms.google-services", version.ref = "services" }

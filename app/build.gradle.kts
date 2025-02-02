@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "com.example.worklog"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.worklog"
@@ -66,10 +66,23 @@ dependencies {
 
     //Firebase
     implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.firestore.ktx)
     implementation(libs.firebase.auth.ktx)
 
     //Firebase Auth
     testImplementation(libs.junit)
+
+
+    // Firebase Firestore
+    implementation(libs.firebase.firestore.ktx)
+
+    // LiveData
+    implementation ("androidx.compose.runtime:runtime-livedata:1.3.2")
+
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+    implementation(libs.androidx.storage)
+
 
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
