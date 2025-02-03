@@ -22,6 +22,9 @@ fun AppNavigation (auth: FirebaseAuth) {
         composable(AppScreens.EmpleadoAlta.ruta) { EmpleadoAlta(navigationController, auth, viewModel()) }
         composable(AppScreens.EmpleadosListar.ruta) { EmpleadosListar(navigationController, auth, viewModel()) }
         composable(AppScreens.EmpleadosListar2.ruta) { EmpleadosListar2(navigationController, auth, viewModel()) }
+        composable(AppScreens.EmployeeHome.ruta) { EmployeeHome(navigationController, auth) } // Nueva ruta
+        composable(AppScreens.RegistrarFichaje.ruta) { RegistrarFichaje(navigationController, auth) } // Nueva ruta
+        composable(AppScreens.HistorialFichajes.ruta) { HistorialFichajes(navigationController, auth) } // Nueva ruta
 
         composable(
             route = AppScreens.EmpleadoEliminar.ruta,
@@ -37,12 +40,12 @@ fun AppNavigation (auth: FirebaseAuth) {
 
         }
 
-        composable(
-            route = AppScreens.EmpleadoFichaje.ruta,
-            arguments = listOf(navArgument("nif") { type = NavType.StringType })
-        ) { backStackEntry ->
-            val nif = backStackEntry.arguments?.getString("nif") ?: ""
-            FichajeScreen(nif = nif)
-        }
+        // composable(
+        //    route = AppScreens.EmpleadoFichaje.ruta,
+        //    arguments = listOf(navArgument("nif") { type = NavType.StringType })
+        // ) { backStackEntry ->
+        //    val nif = backStackEntry.arguments?.getString("nif") ?: ""
+        //    FichajeScreen(nif = nif)
+        //}
     }
 }

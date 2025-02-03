@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 @Composable
 fun Login(navController: NavHostController, auth: FirebaseAuth) {
@@ -74,14 +75,41 @@ fun Login(navController: NavHostController, auth: FirebaseAuth) {
             //si está relleno, intentamos iniciar sesión
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
-
-                    // Si el inicio de sesión ha sido correcto, navegamos a la pantalla de Home
                     if (task.isSuccessful) {
-                        navController.navigate("Home")
-                        Log.i("Worklog", "Inicio de sesión correcto")
-                    } else {
+                        // Obtiene el UID del usuario autenticado
+                        val userId = auth.currentUser?.uid
+                        if (userId == null) {
+                            Toast.makeText(context, "Error al obtener el usuario", Toast.LENGTH_SHORT).show()
+                            return@addOnCompleteListener
+                        }
 
-                        // Si no se ha podido iniciar sesión, mostramos un mensaje de error
+                        // Conexión a Firestore
+                        val db = FirebaseFirestore.getInstance()
+                        db.collection("usuarios").document(userId).get()
+                            .addOnSuccessListener { document ->
+                                if (document.exists()) {
+                                    val role = document.getString("role") // Obtiene el rol
+                                    when (role) {
+                                        "admin" -> {
+                                            navController.navigate("Home") // Redirige al administrador
+                                            Log.i("Worklog", "Usuario admin autenticado")
+                                        }
+                                        "empleado" -> {
+                                            navController.navigate("EmployeeHome") // Redirige al empleado
+                                            Log.i("WorklogEmpleado", "Usuario empleado autenticado")
+                                        }
+                                        else -> {
+                                            Toast.makeText(context, "Rol desconocido", Toast.LENGTH_SHORT).show()
+                                        }
+                                    }
+                                } else {
+                                    Toast.makeText(context, "No se encontró el usuario en Firestore", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                            .addOnFailureListener { exception ->
+                                Toast.makeText(context, "Error al obtener el rol: ${exception.message}", Toast.LENGTH_SHORT).show()
+                            }
+                    } else {
                         val errorMsg = task.exception?.message ?: "Error desconocido"
                         Toast.makeText(context, "Inicio de sesión fallido: $errorMsg", Toast.LENGTH_SHORT).show()
                         Log.e("Worklog", errorMsg)
@@ -91,5 +119,4 @@ fun Login(navController: NavHostController, auth: FirebaseAuth) {
             Text(text = "Login")
         }
     }
-
 }
