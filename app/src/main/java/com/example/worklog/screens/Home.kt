@@ -10,10 +10,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.worklog.viewmodel.EmpleadosViewModel
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun Home (navController: NavHostController, auth: FirebaseAuth) {
+fun Home (navController: NavHostController, auth: FirebaseAuth, ViewModel:EmpleadosViewModel) {
 
     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
         Spacer(modifier = Modifier.weight(1f))
@@ -25,18 +26,13 @@ fun Home (navController: NavHostController, auth: FirebaseAuth) {
         }
 
         Spacer(modifier = Modifier.weight(1f))
-        Button(onClick = { navController.navigate("EmpleadoEliminar") }) {
-            Text(text = "Eliminar Empleado")
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
         Button(onClick = { navController.navigate("EmpleadosListar") }) {
-            Text(text = "Listar Empleados")
+            Text(text = "Lista de Empleados")
         }
 
         Spacer(modifier = Modifier.weight(1f))
         Button(onClick = { navController.navigate("EmpleadosListar2") }) {
-            Text(text = "Listar Empleados 2")
+            Text(text = "Editar/Borrar Empleados")
         }
 
         Spacer(modifier = Modifier.weight(1f))

@@ -1,11 +1,9 @@
 package com.example.worklog.screens
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,8 +18,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.worklog.models.Empleado
+import com.example.worklog.navigation.AppScreens
 import com.example.worklog.viewmodel.EmpleadosListarViewModel
-import com.example.worklog.viewmodel.EmpleadosViewModel
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -63,7 +61,7 @@ fun EmpleadosListar2(navController: NavHostController, auth: FirebaseAuth, ViewM
                 .padding(16.dp)
         ) {
             items(listaEmpleados) { empleado ->
-                EmpleadoItem2(empleado)
+                EmpleadoItem2(empleado = empleado, navController = navController)
             }
         }
 
@@ -72,7 +70,7 @@ fun EmpleadosListar2(navController: NavHostController, auth: FirebaseAuth, ViewM
 
 //Funcion para mostrar un item de la lista de empleados
 @Composable
-fun EmpleadoItem2(empleado: Empleado) {
+fun EmpleadoItem2(empleado: Empleado, navController: NavHostController) {
 
     Card(
         modifier = Modifier
@@ -89,6 +87,31 @@ fun EmpleadoItem2(empleado: Empleado) {
             Text(text = "Apellidos: ${empleado.apellidos}")
             Text(text = "Telefono: ${empleado.telefono}")
             Text(text = "Departamento: ${empleado.departamento}")
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            // Fila para los botones
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Button(
+                    onClick = {
+                        // Navega a la pantalla de edición, pasando el nif del empleado
+                        navController.navigate(AppScreens.EmpleadoEditar.createRoute(empleado.nif))
+                    }
+                ) {
+                    Text(text = "Editar")
+                }
+                Button(
+                    onClick = {
+                        // Navega a la pantalla de eliminación, pasando el nif del empleado
+                        navController.navigate(AppScreens.EmpleadoEliminar.createRoute(empleado.nif))
+                    }
+                ) {
+                    Text(text = "Borrar")
+                }
+            }
         }
     }
 }
