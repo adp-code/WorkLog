@@ -53,7 +53,6 @@ fun Login(navController: NavHostController, auth: FirebaseAuth) {
             modifier = Modifier.padding(vertical = 8.dp)
         )
 
-
         Spacer(Modifier.height(16.dp))
 
         Text(text = "Contraseña", color = White, fontSize = 24.sp)
@@ -69,34 +68,47 @@ fun Login(navController: NavHostController, auth: FirebaseAuth) {
 
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(context, "Por favor, rellena todos los campos", Toast.LENGTH_SHORT).show()
-                return@Button // Salimos del bloque de código del botón
+                return@Button
             }
 
-            //si está relleno, intentamos iniciar sesión
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        // Obtiene el UID del usuario autenticado
                         val userId = auth.currentUser?.uid
                         if (userId == null) {
                             Toast.makeText(context, "Error al obtener el usuario", Toast.LENGTH_SHORT).show()
                             return@addOnCompleteListener
                         }
 
-                        // Conexión a Firestore
                         val db = FirebaseFirestore.getInstance()
                         db.collection("usuarios").document(userId).get()
                             .addOnSuccessListener { document ->
                                 if (document.exists()) {
-                                    val role = document.getString("role") // Obtiene el rol
+                                    val role = document.getString("role")
                                     when (role) {
                                         "admin" -> {
-                                            navController.navigate("Home") // Redirige al administrador
+                                            navController.navigate("Home")
                                             Log.i("Worklog", "Usuario admin autenticado")
                                         }
                                         "empleado" -> {
-                                            navController.navigate("EmployeeHome") // Redirige al empleado
                                             Log.i("WorklogEmpleado", "Usuario empleado autenticado")
+                                            // Consulta la colección empleados para obtener los datos asociados al uid
+                                            db.collection("empleados")
+                                                .whereEqualTo("uid", userId)
+                                                .get()
+                                                .addOnSuccessListener { querySnapshot ->
+                                                    if (!querySnapshot.isEmpty) {
+                                                        val empleadoDoc = querySnapshot.documents[0]
+                                                        val empleadoNombre = empleadoDoc.getString("nombre")
+                                                        Log.i("WorklogEmpleado", "Empleado: $empleadoNombre")
+                                                        navController.navigate("EmployeeHome")
+                                                    } else {
+                                                        Toast.makeText(context, "No se encontró la información del empleado", Toast.LENGTH_SHORT).show()
+                                                    }
+                                                }
+                                                .addOnFailureListener { exception ->
+                                                    Toast.makeText(context, "Error al obtener la información del empleado: ${exception.message}", Toast.LENGTH_SHORT).show()
+                                                }
                                         }
                                         else -> {
                                             Toast.makeText(context, "Rol desconocido", Toast.LENGTH_SHORT).show()

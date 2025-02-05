@@ -26,8 +26,14 @@ class EmpleadosViewModel: ViewModel() {
         private val _telefono = MutableLiveData<String>()
         val telefono: LiveData<String> = _telefono
 
+        private val _email = MutableLiveData<String>()
+        val email: LiveData<String> = _email
+
         private val _departamento = MutableLiveData<String>()
         val departamento: LiveData<String> = _departamento
+
+        private val _uid = MutableLiveData<String>()
+        val uid: LiveData<String> = _uid
 
         private val _empleados = MutableStateFlow<List<Empleado>>(emptyList())
         val empleados: StateFlow<List<Empleado>> = _empleados
@@ -35,16 +41,17 @@ class EmpleadosViewModel: ViewModel() {
         private val _isButtonEnable =MutableLiveData<Boolean>()
         val isButtonEnable: LiveData<Boolean> = _isButtonEnable
 
-        fun onCompletedFields(nif:String, nombre:String, apellidos:String, telefono:String, departamento:String) {
+        fun onCompletedFields(nif:String, nombre:String, apellidos:String, email:String, telefono:String, departamento:String, uid:String) {
             _nif.value = nif
             _nombre.value = nombre
             _apellidos.value = apellidos
+            _email.value = email
             _telefono.value = telefono
             _departamento.value = departamento
-            _isButtonEnable.value = enableButton(nif, nombre, apellidos, telefono, departamento)
+            _isButtonEnable.value = enableButton(nif, nombre, apellidos, telefono, departamento, email, uid)
         }
 
-        fun enableButton(nif:String, nombre:String, apellidos:String, telefono:String, departamento:String) =
-            nif.length >0 && nombre.length >0 && apellidos.length>0 && telefono.length>0 && departamento.length>0
+        fun enableButton(nif:String, nombre:String, apellidos:String, telefono:String, departamento:String, email:String, uid:String) =
+            nif.length >0 && nombre.length >0 && apellidos.length>0 && telefono.length>0 && departamento.length>0 && email.length>0
     }
 

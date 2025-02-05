@@ -22,6 +22,7 @@ fun EmpleadoEditar(navBackStackEntry: NavBackStackEntry, onEmpleadoActualizado: 
     // Variables de estado para los campos del empleado
     val nombre = remember { mutableStateOf("") }
     val apellidos = remember { mutableStateOf("") }
+    val email = remember { mutableStateOf("") }
     val telefono = remember { mutableStateOf("") }
     val departamento = remember { mutableStateOf("") }
     var mensaje by remember { mutableStateOf("") }
@@ -48,6 +49,7 @@ fun EmpleadoEditar(navBackStackEntry: NavBackStackEntry, onEmpleadoActualizado: 
         val datosActualizados = mapOf(
             "nombre" to nombre.value,
             "apellidos" to apellidos.value,
+            "email" to email.value,
             "telefono" to telefono.value,
             "departamento" to departamento.value
         )
@@ -98,6 +100,16 @@ fun EmpleadoEditar(navBackStackEntry: NavBackStackEntry, onEmpleadoActualizado: 
             value = apellidos.value,
             onValueChange = { apellidos.value = it },
             label = { Text("Apellidos") },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp)
+        )
+
+        // Campo para editar el email
+        OutlinedTextField(
+            value = email.value,
+            onValueChange = { email.value = it },
+            label = { Text("Email") },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)

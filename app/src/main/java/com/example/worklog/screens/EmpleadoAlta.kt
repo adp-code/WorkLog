@@ -40,6 +40,8 @@ fun EmpleadoAlta(navController: NavHostController, auth: FirebaseAuth, ViewModel
     val apellidos:String by ViewModel.apellidos.observeAsState (initial = "")
     val telefono:String by ViewModel.telefono.observeAsState (initial = "")
     val departamento:String by ViewModel.departamento.observeAsState (initial = "")
+    val email:String by ViewModel.email.observeAsState (initial = "")
+    val uid:String by ViewModel.uid.observeAsState (initial = "")
 
     val isButtonEnable:Boolean by ViewModel.isButtonEnable.observeAsState (initial = false)
 
@@ -70,7 +72,7 @@ fun EmpleadoAlta(navController: NavHostController, auth: FirebaseAuth, ViewModel
 
             OutlinedTextField(
                 value = nif,
-                onValueChange = { ViewModel.onCompletedFields(nif = it, nombre = nombre, apellidos = apellidos, telefono = telefono, departamento = departamento) },
+                onValueChange = { ViewModel.onCompletedFields(nif = it, nombre = nombre, apellidos = apellidos, telefono = telefono, departamento = departamento, email = email, uid = uid) },
                 label = { Text("Introduce el NIF") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
@@ -80,7 +82,7 @@ fun EmpleadoAlta(navController: NavHostController, auth: FirebaseAuth, ViewModel
 
             OutlinedTextField(
                 value = nombre,
-                onValueChange = { ViewModel.onCompletedFields(nif = nif, nombre = it, apellidos = apellidos, telefono = telefono, departamento = departamento) },
+                onValueChange = { ViewModel.onCompletedFields(nif = nif, nombre = it, apellidos = apellidos, telefono = telefono, departamento = departamento, email = email, uid = uid) },
                 label = { Text("Introduce el nombre") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
@@ -90,7 +92,7 @@ fun EmpleadoAlta(navController: NavHostController, auth: FirebaseAuth, ViewModel
 
             OutlinedTextField(
                 value = apellidos,
-                onValueChange = { ViewModel.onCompletedFields(nif = nif, nombre = nombre, apellidos = it, telefono = telefono, departamento = departamento)},
+                onValueChange = { ViewModel.onCompletedFields(nif = nif, nombre = nombre, apellidos = it, telefono = telefono, departamento = departamento, email = email, uid = uid)},
                 label = { Text("Introduce los apellidos") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
@@ -99,8 +101,16 @@ fun EmpleadoAlta(navController: NavHostController, auth: FirebaseAuth, ViewModel
             Spacer(modifier = Modifier.size(5.dp))
 
             OutlinedTextField(
+                value = email,
+                onValueChange = { ViewModel.onCompletedFields(nif = nif, nombre = nombre, apellidos = apellidos, telefono = telefono, departamento = departamento, email = it, uid = uid)},
+                label = { Text("Introduce el email") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+            )
+
+            OutlinedTextField(
                 value = telefono,
-                onValueChange = { ViewModel.onCompletedFields(nif = nif, nombre = nombre, apellidos = apellidos, telefono = it, departamento = departamento)},
+                onValueChange = { ViewModel.onCompletedFields(nif = nif, nombre = nombre, apellidos = apellidos, telefono = it, departamento = departamento, email = email, uid = uid)},
                 label = { Text("Introduce el telefono") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
@@ -110,7 +120,7 @@ fun EmpleadoAlta(navController: NavHostController, auth: FirebaseAuth, ViewModel
 
             OutlinedTextField(
                 value = departamento,
-                onValueChange = { ViewModel.onCompletedFields(nif = nif, nombre = nombre, apellidos = apellidos, telefono = telefono, departamento = it)},
+                onValueChange = { ViewModel.onCompletedFields(nif = nif, nombre = nombre, apellidos = apellidos, telefono = telefono, departamento = it, email = email, uid = uid)},
                 label = { Text("Introduce el departamento") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
@@ -122,8 +132,11 @@ fun EmpleadoAlta(navController: NavHostController, auth: FirebaseAuth, ViewModel
                 "nif" to nif.toString(),
                 "nombre" to nombre.toString(),
                 "apellidos" to apellidos.toString(),
+                "email" to email.toString(),
                 "telefono" to telefono.toString(),
                 "departamento" to departamento.toString(),
+                "uid" to uid.toString()
+
             )
 
             var mensaje_confirmacion by remember { mutableStateOf("") }

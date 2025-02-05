@@ -1,5 +1,3 @@
-
-
 package com.example.worklog.navigation
 
 import androidx.compose.runtime.Composable
@@ -13,18 +11,44 @@ import com.example.worklog.screens.*
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
-fun AppNavigation (auth: FirebaseAuth) {
+fun AppNavigation(auth: FirebaseAuth) {
     val navigationController = rememberNavController()
-    NavHost(navController = navigationController, startDestination = AppScreens.Login.ruta)
-    {
+    NavHost(navController = navigationController, startDestination = AppScreens.Login.ruta) {
         composable(AppScreens.Login.ruta) { Login(navigationController, auth) }
         composable(AppScreens.Home.ruta) { Home(navigationController, auth, viewModel()) }
-        composable(AppScreens.EmpleadoAlta.ruta) { EmpleadoAlta(navigationController, auth, viewModel()) }
-        composable(AppScreens.EmpleadosListar.ruta) { EmpleadosListar(navigationController, auth, viewModel()) }
-        composable(AppScreens.EmpleadosListar2.ruta) { EmpleadosListar2(navigationController, auth, viewModel()) }
-        composable(AppScreens.EmployeeHome.ruta) { EmployeeHome(navigationController, auth) } // Nueva ruta
-        composable(AppScreens.RegistrarFichaje.ruta) { RegistrarFichaje(navigationController, auth) } // Nueva ruta
-        composable(AppScreens.HistorialFichajes.ruta) { HistorialFichajes(navigationController, auth) } // Nueva ruta
+        composable(AppScreens.EmpleadoAlta.ruta) {
+            EmpleadoAlta(
+                navigationController,
+                auth,
+                viewModel()
+            )
+        }
+        composable(AppScreens.EmpleadosListar.ruta) {
+            EmpleadosListar(
+                navigationController,
+                auth,
+                viewModel()
+            )
+        }
+        composable(AppScreens.EmpleadosListar2.ruta) {
+            EmpleadosListar2(
+                navigationController,
+                auth,
+                viewModel()
+            )
+        }
+        composable(AppScreens.EmployeeHome.ruta) { EmployeeHome(navigationController, auth) }
+        composable(AppScreens.RegistrarFichaje.ruta) {
+            RegistrarFichaje(
+                navigationController,
+                auth
+            )
+        }
+        composable(AppScreens.HistorialFichajes.ruta) { backStackEntry ->
+            val uid = backStackEntry.arguments?.getString("uid") ?: ""
+            HistorialFichajes(navigationController, auth, uid)
+        }
+        composable(AppScreens.EmployeeProfile.ruta) { EmployeeProfile(auth) }
 
         composable(
             route = AppScreens.EmpleadoEliminar.ruta,
@@ -37,15 +61,15 @@ fun AppNavigation (auth: FirebaseAuth) {
             arguments = listOf(/* define argumentos si es necesario */)
         ) { backStackEntry ->
             EmpleadoEditar(backStackEntry)
-
         }
 
-        // composable(
-        //    route = AppScreens.EmpleadoFichaje.ruta,
-        //    arguments = listOf(navArgument("nif") { type = NavType.StringType })
-        // ) { backStackEntry ->
-        //    val nif = backStackEntry.arguments?.getString("nif") ?: ""
-        //    FichajeScreen(nif = nif)
-        //}
+        composable(
+            route = "HistorialFichajes/{uid}",
+            arguments = listOf(navArgument("uid") { nullable = true })
+        ) { backStackEntry ->
+            val uid = backStackEntry.arguments?.getString("uid")
+            val userUid = if (uid == "self") FirebaseAuth.getInstance().currentUser?.uid else uid
+            HistorialFichajes(navigationController, FirebaseAuth.getInstance(), userUid)
+        }
     }
 }

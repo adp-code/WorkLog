@@ -99,6 +99,7 @@ fun EmpleadoItem(empleado: Empleado, navController: NavHostController) {
             Text(text = "NIF: ${empleado.nif}")
             Text(text = "Nombre: ${empleado.nombre}")
             Text(text = "Apellidos: ${empleado.apellidos}")
+            Text(text = "Email: ${empleado.email}")
             Text(text = "Teléfono: ${empleado.telefono}")
             Text(text = "Departamento: ${empleado.departamento}")
 
@@ -107,8 +108,7 @@ fun EmpleadoItem(empleado: Empleado, navController: NavHostController) {
             // Botón "Ver Fichaje"
             Button(
                 onClick = {
-                    // Navega a la pantalla de fichaje, pasando el nif del empleado
-                    navController.navigate("Fichaje/${empleado.nif}")
+                    navController.navigate("HistorialFichajes/${empleado.uid}")
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {

@@ -85,6 +85,7 @@ fun EmpleadoItem2(empleado: Empleado, navController: NavHostController) {
             Text(text = "NIF: ${empleado.nif}")
             Text(text = "Nombre: ${empleado.nombre}")
             Text(text = "Apellidos: ${empleado.apellidos}")
+            Text(text = "Email: ${empleado.email}")
             Text(text = "Telefono: ${empleado.telefono}")
             Text(text = "Departamento: ${empleado.departamento}")
 

@@ -5,6 +5,7 @@ sealed class AppScreens (val ruta:String) {
     object Home: AppScreens("Home")
 
     object EmployeeHome : AppScreens("EmployeeHome")  // Nueva ruta para empleados
+    object EmployeeProfile : AppScreens("EmployeeProfile")
 
     object EmpleadoAlta: AppScreens("EmpleadoAlta")
     //object EmpleadoEliminar: AppScreens( "EmpleadoEliminar")
