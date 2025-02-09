@@ -1,9 +1,11 @@
 package com.example.worklog.screens
 
+import android.app.Activity
 import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,11 +24,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.worklog.R
+import com.example.worklog.navigation.setLocale
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import java.util.Locale
 
 @Composable
 fun Login(navController: NavHostController, auth: FirebaseAuth) {
@@ -34,6 +41,15 @@ fun Login(navController: NavHostController, auth: FirebaseAuth) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val context = LocalContext.current
+
+    val fillFieldsMessage = stringResource(id = R.string.fill_fields)
+    val errorUserMessage = stringResource(id = R.string.error_user)
+    val employeeInfoNotFoundMessage = stringResource(id = R.string.employee_info_not_found)
+    val errorEmployeeInfoMessage = stringResource(id = R.string.error_employee_info)
+    val unknownRoleMessage = stringResource(id = R.string.unknown_role)
+    val userNotFoundMessage = stringResource(id = R.string.user_not_found)
+    val errorRoleMessage = stringResource(id = R.string.error_role)
+    val loginFailedMessage = stringResource(id = R.string.login_failed)
 
     Column(
         modifier = Modifier
@@ -46,7 +62,12 @@ fun Login(navController: NavHostController, auth: FirebaseAuth) {
 
         Spacer(Modifier.height(32.dp))
 
-        Text(text = "Email", color = White, fontSize = 24.sp)
+        // Etiqueta para el Email
+        Text(
+            text = stringResource(id = R.string.email),
+            color = White,
+            fontSize = 24.sp
+        )
         TextField(
             value = email,
             onValueChange = { email = it },
@@ -55,19 +76,29 @@ fun Login(navController: NavHostController, auth: FirebaseAuth) {
 
         Spacer(Modifier.height(16.dp))
 
-        Text(text = "Contraseña", color = White, fontSize = 24.sp)
+        // Etiqueta para la Contraseña
+        Text(
+            text = stringResource(id = R.string.password),
+            color = White,
+            fontSize = 24.sp
+        )
         TextField(
             value = password,
             onValueChange = { password = it },
+            // Oculta los caracteres de la contraseña
+            visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.padding(vertical = 8.dp)
         )
 
         Spacer(Modifier.height(16.dp))
 
         Button(onClick = {
-
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(context, "Por favor, rellena todos los campos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    fillFieldsMessage,
+                    Toast.LENGTH_SHORT
+                ).show()
                 return@Button
             }
 
@@ -76,7 +107,11 @@ fun Login(navController: NavHostController, auth: FirebaseAuth) {
                     if (task.isSuccessful) {
                         val userId = auth.currentUser?.uid
                         if (userId == null) {
-                            Toast.makeText(context, "Error al obtener el usuario", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                context,
+                                errorUserMessage,
+                                Toast.LENGTH_SHORT
+                            ).show()
                             return@addOnCompleteListener
                         }
 
@@ -92,7 +127,6 @@ fun Login(navController: NavHostController, auth: FirebaseAuth) {
                                         }
                                         "empleado" -> {
                                             Log.i("WorklogEmpleado", "Usuario empleado autenticado")
-                                            // Consulta la colección empleados para obtener los datos asociados al uid
                                             db.collection("empleados")
                                                 .whereEqualTo("uid", userId)
                                                 .get()
@@ -103,32 +137,81 @@ fun Login(navController: NavHostController, auth: FirebaseAuth) {
                                                         Log.i("WorklogEmpleado", "Empleado: $empleadoNombre")
                                                         navController.navigate("EmployeeHome")
                                                     } else {
-                                                        Toast.makeText(context, "No se encontró la información del empleado", Toast.LENGTH_SHORT).show()
+                                                        Toast.makeText(
+                                                            context,
+                                                            employeeInfoNotFoundMessage,
+                                                            Toast.LENGTH_SHORT
+                                                        ).show()
                                                     }
                                                 }
                                                 .addOnFailureListener { exception ->
-                                                    Toast.makeText(context, "Error al obtener la información del empleado: ${exception.message}", Toast.LENGTH_SHORT).show()
+                                                    Toast.makeText(
+                                                        context,
+                                                        "$errorEmployeeInfoMessage: ${exception.message}",
+                                                        Toast.LENGTH_SHORT
+                                                    ).show()
                                                 }
                                         }
                                         else -> {
-                                            Toast.makeText(context, "Rol desconocido", Toast.LENGTH_SHORT).show()
+                                            Toast.makeText(
+                                                context,
+                                                unknownRoleMessage,
+                                                Toast.LENGTH_SHORT
+                                            ).show()
                                         }
                                     }
                                 } else {
-                                    Toast.makeText(context, "No se encontró el usuario en Firestore", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        context,
+                                        userNotFoundMessage,
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             }
                             .addOnFailureListener { exception ->
-                                Toast.makeText(context, "Error al obtener el rol: ${exception.message}", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(
+                                    context,
+                                    "$errorRoleMessage: ${exception.message}",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
                     } else {
                         val errorMsg = task.exception?.message ?: "Error desconocido"
-                        Toast.makeText(context, "Inicio de sesión fallido: $errorMsg", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            context,
+                            "$loginFailedMessage: $errorMsg",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         Log.e("Worklog", errorMsg)
                     }
                 }
         }) {
-            Text(text = "Login")
+            Text(
+                text = stringResource(id = R.string.login),
+                color = White,
+                fontSize = 18.sp
+            )
         }
+    }
+
+    // Botón para cambiar el idioma en tiempo de ejecución
+    val activity = LocalContext.current as? Activity
+    Box(modifier = Modifier.fillMaxSize()) {
+        Button(
+            onClick = {
+                activity?.let {
+                    val currentLang = Locale.getDefault().language
+                    val newLocale = if (currentLang == "es") Locale("en") else Locale("es")
+                    it.setLocale(newLocale)
+                }
+            },
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(16.dp)
+        ) {
+            val buttonText = if (Locale.getDefault().language == "es") "EN" else "ES"
+            Text(text = buttonText)
+        }
+
     }
 }

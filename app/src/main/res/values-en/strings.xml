@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">WorkLog</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="fill_fields">Please fill in all fields</string>
+    <string name="error_user">Error obtaining user</string>
+    <string name="employee_info_not_found">Employee information not found</string>
+    <string name="error_employee_info">Error obtaining employee information</string>
+    <string name="unknown_role">Unknown role</string>
+    <string name="user_not_found">User not found in Firestore</string>
+    <string name="error_role">Error obtaining role</string>
+    <string name="login_failed">Login failed</string>
+</resources>

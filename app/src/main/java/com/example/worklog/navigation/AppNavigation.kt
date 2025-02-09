@@ -2,13 +2,16 @@ package com.example.worklog.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.worklog.screens.*
 import com.google.firebase.auth.FirebaseAuth
+import android.app.Activity
+import android.content.Context
+import android.content.res.Configuration
+import java.util.Locale
 
 @Composable
 fun AppNavigation(auth: FirebaseAuth) {
@@ -72,4 +75,24 @@ fun AppNavigation(auth: FirebaseAuth) {
             HistorialFichajes(navigationController, FirebaseAuth.getInstance(), userUid)
         }
     }
+}
+
+fun Activity.setLocale(locale: Locale) {
+    // Actualiza el Locale por defecto
+    Locale.setDefault(locale)
+
+    // Guarda el idioma seleccionado en SharedPreferences
+    val sharedPrefs = getSharedPreferences("settings", Context.MODE_PRIVATE)
+    with(sharedPrefs.edit()) {
+        putString("selected_language", locale.language)
+        apply()
+    }
+
+    // Actualiza la configuración local del contexto actual
+    val config = Configuration(resources.configuration)
+    config.setLocale(locale)
+    createConfigurationContext(config)
+
+    // Recrea la actividad para que se apliquen los nuevos recursos
+    recreate()
 }
