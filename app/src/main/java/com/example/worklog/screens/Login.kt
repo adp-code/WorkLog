@@ -3,6 +3,7 @@ package com.example.worklog.screens
 import android.app.Activity
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -24,6 +26,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
@@ -54,18 +58,26 @@ fun Login(navController: NavHostController, auth: FirebaseAuth) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black)
+            .background(Color.White)
             .padding(horizontal = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
 
-        Spacer(Modifier.height(32.dp))
+        Image(
+            painter = painterResource(id = R.drawable.logo), // Reemplaza "logo" con el nombre de tu imagen
+            contentDescription = "Logo de la empresa", // Descripción accesible
+            modifier = Modifier
+                .size(400.dp) // Tamaño de la imagen
+
+        )
+
+        Spacer(Modifier.height(10.dp))
 
         // Etiqueta para el Email
         Text(
             text = stringResource(id = R.string.email),
-            color = White,
+            color = colorResource(id = R.color.black),
             fontSize = 24.sp
         )
         TextField(
@@ -79,7 +91,7 @@ fun Login(navController: NavHostController, auth: FirebaseAuth) {
         // Etiqueta para la Contraseña
         Text(
             text = stringResource(id = R.string.password),
-            color = White,
+            color = colorResource(id = R.color.black),
             fontSize = 24.sp
         )
         TextField(
@@ -208,6 +220,7 @@ fun Login(navController: NavHostController, auth: FirebaseAuth) {
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(16.dp)
+                .padding(top = 15.dp)
         ) {
             val buttonText = if (Locale.getDefault().language == "es") "EN" else "ES"
             Text(text = buttonText)
