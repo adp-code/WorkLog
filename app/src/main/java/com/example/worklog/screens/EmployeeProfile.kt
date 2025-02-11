@@ -1,10 +1,15 @@
 package com.example.worklog.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.worklog.models.Empleado
@@ -38,27 +43,58 @@ fun EmployeeProfile(auth: FirebaseAuth) {
         }
     }
 
-    Column(
+    Card(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+            .padding(20.dp)
+            .padding(top = 28.dp),
+        shape = MaterialTheme.shapes.small,
+        colors = CardDefaults.cardColors(
+            containerColor = Color(0xFFE0F7FA) // Color de fondo personalizado (cian claro)
+        )
     ) {
-        if (errorMessage.isNotEmpty()) {
-            Text(text = errorMessage, fontSize = 18.sp)
-        } else if (empleado == null) {
-            Text(text = "Cargando...", fontSize = 18.sp)
-        } else {
-            Text(text = "Nombre: ${empleado?.nombre}", fontSize = 20.sp)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "Apellidos: ${empleado?.apellidos}", fontSize = 20.sp)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "Email: ${empleado?.email}", fontSize = 20.sp)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "Teléfono: ${empleado?.telefono}", fontSize = 20.sp)
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = "Departamento: ${empleado?.departamento}", fontSize = 20.sp)
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 80.dp)
+                .padding(start = 10.dp)
+                .padding(end = 10.dp)
+
+        ) {
+
+            Text(
+                text = "Mis Datos", fontSize = 30.sp,
+                fontWeight = FontWeight.ExtraBold
+            )
+
+
+            Spacer(modifier = Modifier.size(20.dp))
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+
+                ) {
+                Column {
+                    if (errorMessage.isNotEmpty()) {
+                        Text(text = errorMessage, fontSize = 18.sp)
+                    } else if (empleado == null) {
+                        Text(text = "Cargando...", fontSize = 18.sp)
+                    } else {
+                        Text(text = "Nombre: ${empleado?.nombre}", fontSize = 20.sp)
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(text = "Apellidos: ${empleado?.apellidos}", fontSize = 20.sp)
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(text = "Email: ${empleado?.email}", fontSize = 20.sp)
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(text = "Teléfono: ${empleado?.telefono}", fontSize = 20.sp)
+                        Spacer(modifier = Modifier.height(10.dp))
+                        Text(text = "Departamento: ${empleado?.departamento}", fontSize = 20.sp)
+                    }
+                }
+            }
         }
     }
 }

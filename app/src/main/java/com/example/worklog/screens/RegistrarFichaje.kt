@@ -12,6 +12,8 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.google.firebase.auth.FirebaseAuth
 import android.widget.Toast
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.ui.graphics.Color
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -27,21 +29,31 @@ fun RegistrarFichaje(navController: NavHostController, auth: FirebaseAuth) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(text = "Registrar Fichaje", fontSize = 24.sp)
+        Text(text = "Registrar Fichaje", fontSize = 34.sp)
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         Button(onClick = {
             registrarEntrada(uid,
                 onSuccess = {
                     Toast.makeText(context, "Entrada registrada", Toast.LENGTH_SHORT).show()
                 },
-                onFailure = { errorMsg ->
+                onFailure = { errorMsg: String ->
                     Toast.makeText(context, "Error: $errorMsg", Toast.LENGTH_SHORT).show()
                 }
             )
-        }) {
-            Text(text = "Registrar Entrada")
+        },
+            modifier = Modifier
+                .padding(16.dp)
+                .padding(top = 15.dp)
+                .height(60.dp),
+
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF4CAF50), // Color de fondo (azul)
+                contentColor = Color.White // Color del texto (blanco)
+            ),
+        ) {
+            Text(text = "Registrar Entrada", fontSize = 18.sp)
         }
 
         Spacer(modifier = Modifier.height(8.dp))
@@ -51,16 +63,36 @@ fun RegistrarFichaje(navController: NavHostController, auth: FirebaseAuth) {
                 onSuccess = {
                     Toast.makeText(context, "Salida registrada", Toast.LENGTH_SHORT).show()
                 },
-                onFailure = { errorMsg ->
+                onFailure = { errorMsg: String ->
                     Toast.makeText(context, "Error: $errorMsg", Toast.LENGTH_SHORT).show()
                 }
             )
-        }) {
-            Text(text = "Registrar Salida")
+        },
+            modifier = Modifier
+                .padding(16.dp)
+                .padding(top = 15.dp)
+                .height(60.dp),
+
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFFF4511E), // Color de fondo (azul)
+                contentColor = Color.White // Color del texto (blanco)
+            ),
+        ) {
+            Text(text = "Registrar Salida", fontSize = 18.sp)
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { navController.popBackStack() }) {
+        Spacer(modifier = Modifier.height(8.dp))
+
+        Button(
+            onClick = { navController.popBackStack() },
+            modifier = Modifier
+                .padding(16.dp)
+                .padding(top = 15.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF00838F), // Color de fondo (azul)
+                contentColor = Color.White // Color del texto (blanco)
+            )
+        ) {
             Text(text = "Volver")
         }
     }

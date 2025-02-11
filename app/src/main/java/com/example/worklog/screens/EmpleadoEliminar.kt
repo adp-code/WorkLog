@@ -2,11 +2,13 @@ package com.example.worklog.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavBackStackEntry
 import com.google.firebase.firestore.FirebaseFirestore
@@ -57,12 +59,16 @@ fun EmpleadoEliminar(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(16.dp)
+            .padding(horizontal = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Text(text = "¿Estás seguro de eliminar el empleado con NIF: $nif?")
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier
+            .height(16.dp)
+            .padding(16.dp),
+        )
         if (mensaje.isNotEmpty()) {
             Text(text = mensaje)
             Spacer(modifier = Modifier.height(16.dp))
@@ -71,12 +77,18 @@ fun EmpleadoEliminar(
         Button(
             onClick = { eliminarEmpleado() },
             enabled = !cargando,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF00838F), // Color de fondo (azul)
+                contentColor = Color.White // Color del texto (blanco)
+            )
         ) {
             Text(text = if (cargando) "Eliminando..." else "Eliminar")
         }
+
         Spacer(modifier = Modifier.height(8.dp))
-        // Botón para cancelar o volver (opcional)
+
+// Botón para cancelar o volver (opcional)
         OutlinedButton(
             onClick = { onEmpleadoEliminado?.invoke() },
             modifier = Modifier.fillMaxWidth()

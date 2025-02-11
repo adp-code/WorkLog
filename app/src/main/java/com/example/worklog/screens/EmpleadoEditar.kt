@@ -2,11 +2,16 @@ package com.example.worklog.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavBackStackEntry
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.CoroutineScope
@@ -78,12 +83,20 @@ fun EmpleadoEditar(navBackStackEntry: NavBackStackEntry, onEmpleadoActualizado: 
 
     // Interfaz de edición
     Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp)
+            .padding(top = 100.dp)
+            .padding(start = 10.dp)
+            .padding(end = 10.dp)
+            .padding(horizontal = 20.dp),
     ) {
-        Text(text = "Editar Empleado", modifier = Modifier.padding(bottom = 8.dp))
-        Text(text = "NIF: $nif", modifier = Modifier.padding(bottom = 16.dp))
+        Text(text = "Editar Empleado",fontSize = 34.sp,
+            fontWeight = FontWeight.ExtraBold,
+            modifier = Modifier.padding(bottom = 8.dp))
+
+        Text(text = "NIF: $nif",fontSize = 15.sp,
+            modifier = Modifier.padding(bottom = 16.dp))
 
         // Campo para editar el nombre
         OutlinedTextField(
@@ -143,7 +156,12 @@ fun EmpleadoEditar(navBackStackEntry: NavBackStackEntry, onEmpleadoActualizado: 
         // Botón para guardar los cambios
         Button(
             onClick = { actualizarEmpleado() },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF00838F), // Color de fondo (azul)
+                contentColor = Color.White // Color del texto (blanco)
+            ),
             enabled = !cargando // Deshabilitar mientras se procesa la actualización
         ) {
             Text(text = if (cargando) "Guardando..." else "Guardar")

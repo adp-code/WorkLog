@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -23,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.worklog.viewmodel.EmpleadosViewModel
 import com.google.firebase.auth.FirebaseAuth
@@ -48,23 +51,27 @@ fun EmpleadoAlta(navController: NavHostController, auth: FirebaseAuth, ViewModel
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        shape = MaterialTheme.shapes.small
+            .padding(20.dp)
+            .padding(top= 28.dp),
 
+
+        shape = MaterialTheme.shapes.small,
+                colors = CardDefaults.cardColors(
+                containerColor = Color(0xFFE0F7FA) // Color de fondo personalizado (cian claro)
+                )
     ) {
-
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(top = 100.dp)
+                .padding(top = 80.dp)
                 .padding(start = 10.dp)
                 .padding(end = 10.dp)
 
         ) {
 
             Text(
-                text = "Alta de Empleado",
+                text = "Alta de Empleado", fontSize = 30.sp,
                 fontWeight = FontWeight.ExtraBold
             )
 
@@ -126,7 +133,8 @@ fun EmpleadoAlta(navController: NavHostController, auth: FirebaseAuth, ViewModel
                 singleLine = true,
             )
 
-            Spacer(modifier = Modifier.size(5.dp))
+            Spacer(modifier = Modifier.size(25.dp))
+
 
             val dato = hashMapOf(
                 "nif" to nif.toString(),
@@ -142,7 +150,6 @@ fun EmpleadoAlta(navController: NavHostController, auth: FirebaseAuth, ViewModel
             var mensaje_confirmacion by remember { mutableStateOf("") }
 
             Button(
-
                 onClick = {
                     db.collection(nombre_coleccion)
                         .document(nif)
@@ -150,25 +157,27 @@ fun EmpleadoAlta(navController: NavHostController, auth: FirebaseAuth, ViewModel
                         .addOnSuccessListener {
                             mensaje_confirmacion ="Datos guardados correctamente"
 
-
                         }
                         .addOnFailureListener {
                             mensaje_confirmacion ="No se ha podido guardar"
-
                         }
                 },
-
-                // EJEMPLO DE VIEWMODEL PARA HABILITAR EL BOTÓN
-                enabled= isButtonEnable,
-
-                border = BorderStroke(1.dp, Color.Black)
-            )
-            {
-
-                Text(text = "Guardar")
+                modifier = Modifier
+                    .padding(16.dp)
+                    .padding(top = 15.dp),
+                enabled = isButtonEnable, // Habilitar/deshabilitar el botón
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF00838F), // Color de fondo (azul)
+                    contentColor = Color.White // Color del texto (blanco)
+                ),
+                //border = BorderStroke(1.dp, Color.Black) // Borde del botón
+            ) {
+                Text(text = "Guardar",fontSize = 18.sp)
 
             }
+
             Spacer(modifier = Modifier.size(5.dp))
+
             Text(text = mensaje_confirmacion)
         }
     }

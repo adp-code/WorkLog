@@ -14,8 +14,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -58,7 +60,7 @@ fun Login(navController: NavHostController, auth: FirebaseAuth) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(color = Color(0xFFE0F7FA))
             .padding(horizontal = 32.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -72,18 +74,22 @@ fun Login(navController: NavHostController, auth: FirebaseAuth) {
 
         )
 
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(5.dp))
 
         // Etiqueta para el Email
         Text(
             text = stringResource(id = R.string.email),
             color = colorResource(id = R.color.black),
-            fontSize = 24.sp
+            fontSize = 21.sp
         )
         TextField(
             value = email,
             onValueChange = { email = it },
-            modifier = Modifier.padding(vertical = 8.dp)
+            modifier = Modifier.padding(vertical = 8.dp),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.White, // Fondo blanco cuando está enfocado
+                unfocusedContainerColor = Color.White // Fondo blanco cuando no está enfocado
+            )
         )
 
         Spacer(Modifier.height(16.dp))
@@ -92,14 +98,18 @@ fun Login(navController: NavHostController, auth: FirebaseAuth) {
         Text(
             text = stringResource(id = R.string.password),
             color = colorResource(id = R.color.black),
-            fontSize = 24.sp
+            fontSize = 21.sp
         )
         TextField(
             value = password,
             onValueChange = { password = it },
-            // Oculta los caracteres de la contraseña
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.padding(vertical = 8.dp)
+            visualTransformation = PasswordVisualTransformation(), // Oculta los caracteres de la contraseña
+            modifier = Modifier
+                .padding(vertical = 8.dp), // Padding vertical
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = Color.White, // Fondo blanco cuando está enfocado
+                unfocusedContainerColor = Color.White // Fondo blanco cuando no está enfocado
+            )
         )
 
         Spacer(Modifier.height(16.dp))
@@ -197,7 +207,15 @@ fun Login(navController: NavHostController, auth: FirebaseAuth) {
                         Log.e("Worklog", errorMsg)
                     }
                 }
-        }) {
+        },
+
+            modifier = Modifier,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF00838F), // Color de fondo (azul)
+                contentColor = Color.White // Color del texto (blanco)
+            )
+
+        ) {
             Text(
                 text = stringResource(id = R.string.login),
                 color = White,
@@ -220,7 +238,11 @@ fun Login(navController: NavHostController, auth: FirebaseAuth) {
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(16.dp)
-                .padding(top = 15.dp)
+                .padding(top = 15.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF00838F), // Color de fondo (azul)
+                contentColor = Color.White // Color del texto (blanco)
+            )
         ) {
             val buttonText = if (Locale.getDefault().language == "es") "EN" else "ES"
             Text(text = buttonText)
