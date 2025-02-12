@@ -5,12 +5,15 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -54,11 +57,19 @@ fun HistorialFichajes(navController: NavHostController, auth: FirebaseAuth, uidF
     }
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(top = 100.dp)
+            .padding(start = 10.dp)
+            .padding(end = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Historial de Fichajes", fontSize = 24.sp)
-        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = "Historial de Fichajes",
+            fontSize = 30.sp,
+            fontWeight = FontWeight.ExtraBold
+        )
+        Spacer(modifier = Modifier.height(18.dp))
 
         if (loading) {
             Text(text = "No hay registros disponibles")
@@ -67,11 +78,11 @@ fun HistorialFichajes(navController: NavHostController, auth: FirebaseAuth, uidF
         } else {
             LazyColumn {
                 item {
-                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(text = "Fecha", modifier = Modifier.weight(1f))
-                        Text(text = "Entrada", modifier = Modifier.weight(1f))
-                        Text(text = "Salida", modifier = Modifier.weight(1f))
-                        Text(text = "Total Hrs", modifier = Modifier.weight(1f))
+                    Row(modifier = Modifier.fillMaxWidth() .padding(16.dp), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text(text = "Fecha", modifier = Modifier.weight(1.2f))
+                        Text(text = "Entrada", modifier = Modifier.weight(0.8f))
+                        Text(text = "Salida", modifier = Modifier.weight(0.8f))
+                        Text(text = "Total Hrs", modifier = Modifier.weight(0.8f))
                     }
                 }
                 items(fichajes) { fichaje ->
@@ -81,7 +92,17 @@ fun HistorialFichajes(navController: NavHostController, auth: FirebaseAuth, uidF
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        Button(onClick = { navController.popBackStack() }) {
+        Button(onClick = { navController.popBackStack() },
+            modifier = Modifier
+                .padding(16.dp)
+                .padding(top = 15.dp),
+
+            colors = ButtonDefaults.buttonColors(
+                containerColor = Color(0xFF00838F), // Color de fondo (azul)
+                contentColor = Color.White // Color del texto (blanco)
+            ),
+            //border = BorderStroke(1.dp, Color.Black) // Borde del botón
+         ) {
             Text(text = "Volver")
         }
     }
@@ -109,12 +130,13 @@ fun FichajeItem(fichaje: Fichaje) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp),
+            .padding(vertical = 4.dp)
+            .padding(horizontal = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(text = fecha, modifier = Modifier.weight(1f))
-        Text(text = entrada, modifier = Modifier.weight(1f))
-        Text(text = salida, modifier = Modifier.weight(1f))
-        Text(text = totalHoras, modifier = Modifier.weight(1f))
+        Text(text = fecha, modifier = Modifier.weight(1.2f))
+        Text(text = entrada, modifier = Modifier.weight(0.8f))
+        Text(text = salida, modifier = Modifier.weight(0.8f))
+        Text(text = totalHoras, modifier = Modifier.weight(0.8f))
     }
 }
