@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">WorkLog</string>
-    <string name="email">Email</string>
+    <string name="email">Username</string>
     <string name="password">Password</string>
-    <string name="login">Login</string>
+    <string name="login">Log in</string>
     <string name="fill_fields">Please fill in all fields</string>
     <string name="error_user">Error obtaining user</string>
     <string name="employee_info_not_found">Employee information not found</string>
